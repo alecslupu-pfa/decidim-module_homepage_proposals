@@ -3,7 +3,7 @@
     <div class="columns flex-v-center">
       <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.intro") %></p>
       <div>
-        <%= scopes_select_field form, :scope_id, false, label: false %>
+        <%= scopes_select_field form, :scope_id, root: false, label: false %>
       </div>
       <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.about") %></p>
       <div>

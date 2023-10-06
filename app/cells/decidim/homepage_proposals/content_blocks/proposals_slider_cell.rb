@@ -55,7 +55,8 @@ module Decidim
           @selected_component_id ||= params.dig(:filter, :component_id) || content_block_settings.default_linked_component
         end
 
-        def scopes_select_field(form, name, root: false, options: {})
+        def scopes_select_field(form, name, options = {})
+          root = options[:root] || false
           root = try(:current_participatory_space)&.scope if root == false
           ordered_descendants = if root.present?
                                   root.descendants
