@@ -54,6 +54,21 @@ module Decidim
         def selected_component_id
           @selected_component_id ||= params.dig(:filter, :component_id) || content_block_settings.default_linked_component
         end
+
+        def scopes_select_field(form, name, root: false, options: {})
+          root = try(:current_participatory_space)&.scope if root == false
+          ordered_descendants = if root.present?
+                                  root.descendants
+                                else
+                                  linked_components.map(&:scope).flatten.compact
+                                end.sort { |a, b| a.part_of.reverse <=> b.part_of.reverse }
+
+          form.select(
+            name,
+            ordered_descendants.map { |scope| [" #{"&nbsp;" * 4 * (scope.part_of.count - 1)} #{translated_attribute(scope.name)}".html_safe, scope&.id] },
+            options.merge(include_blank: I18n.t("decidim.scopes.prompt"))
+          )
+        end
       end
     end
   end
