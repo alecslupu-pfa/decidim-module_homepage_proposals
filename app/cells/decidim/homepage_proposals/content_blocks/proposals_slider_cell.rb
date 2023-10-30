@@ -55,20 +55,29 @@ module Decidim
           @selected_component_id ||= params.dig(:filter, :component_id) || content_block_settings.default_linked_component
         end
 
-        def scopes_select_field(form, name, options = {})
-          root = options[:root] || false
-          root = try(:current_participatory_space)&.scope if root == false
-          ordered_descendants = if root.present?
-                                  root.descendants
-                                else
-                                  linked_components.map(&:scope).flatten.compact
-                                end.sort { |a, b| a.part_of.reverse <=> b.part_of.reverse }
+        def scopes_filter
+          options = []
+          root = linked_components.collect(&:scope).collect(&:blank?).any?
 
-          form.select(
-            name,
-            ordered_descendants.map { |scope| [" #{"&nbsp;" * 4 * (scope.part_of.count - 1)} #{translated_attribute(scope.name)}".html_safe, scope&.id] },
-            options.merge(include_blank: I18n.t("decidim.scopes.prompt"))
-          )
+          if root
+            current_organization.scopes.top_level.each do |scope|
+              options_for_scope(options, scope, 0)
+            end
+          else
+            linked_components.collect(&:scope).uniq.each do |scope|
+              options_for_scope(options, scope, 0)
+            end
+          end
+
+          options
+        end
+
+        def options_for_scope(options, scope, level = 0)
+          options << [("--" * level) + translated_attribute(scope.name), scope.id]
+
+          scope.children.each do |child|
+            options_for_scope(options, child, level + 1)
+          end
         end
       end
     end
