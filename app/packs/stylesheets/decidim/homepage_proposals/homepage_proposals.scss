@@ -1,5 +1,13 @@
 @import "@glidejs/glide/src/assets/sass/glide.core";
 
+.text-underline {
+  text-decoration: underline;
+}
+
+.card__text--paragraph {
+  height: 150px;
+}
+
 // glide's relative position prevents filters from being clicked
 .glide {
   position: inherit !important;
