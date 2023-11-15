@@ -1,9 +1,5 @@
 @import "@glidejs/glide/src/assets/sass/glide.core";
 
-.card__text--paragraph {
-  height: 150px;
-}
-
 // glide's relative position prevents filters from being clicked
 .glide {
   position: inherit !important;
@@ -53,4 +49,14 @@
 .flex-justify-end {
   display: flex;
   justify-content: end
+}
+
+.glide__slide {
+  .card--process__small {
+    height: 340px;
+    
+    .card__text--paragraph {
+      height: 200px;
+    }
+  }
 }

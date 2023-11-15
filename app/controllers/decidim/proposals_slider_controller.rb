@@ -20,7 +20,8 @@ module Decidim
       glanced_proposals.flat_map do |proposal|
         {
           id: proposal.id,
-          title: translated_attribute(proposal.title).truncate(40),
+
+          title: translated_attribute(proposal.title).truncate(30),
           body: decidim_sanitize_editor(translated_attribute(proposal.body), strip_tags: true).truncate(150),
           url: proposal_path(proposal),
           image: image_for(proposal),

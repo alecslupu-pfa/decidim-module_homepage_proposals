@@ -49,10 +49,10 @@ export default class Proposal extends GlideItem {
             ${this.getTagsTemplate()}
             ${this.body}
         </div>
+    </div>
+    <div class="card__button align-bottom padding-top-1">
         <a href="${this.url}">
-            <div class="card__button align-bottom padding-top-1">
-                <span class="button small button--secondary">Visit</span>
-            </div>
+            <span class="button small button--secondary">Visit</span>
         </a>
     </div>
   </div>
