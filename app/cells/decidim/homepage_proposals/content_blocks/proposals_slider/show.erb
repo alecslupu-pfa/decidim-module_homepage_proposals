@@ -1,6 +1,12 @@
-<section class="wrapper-home home-section" xmlns="http://www.w3.org/1999/xhtml">
+<section id="proposals_slider_container" class="wrapper-home home-section" xmlns="http://www.w3.org/1999/xhtml">
   <div class="row collapse">
-    <h3 class="section-heading"><%= t("decidim.homepage_proposals.proposal_at_a_glance.title") %></h3>
+    <h3 class="column section-heading small-8"><%= t("decidim.homepage_proposals.proposal_at_a_glance.title") %></h3>
+    <div class="column small-4 text-right">
+      <%= link_to decidim_participatory_processes_path(anchor: "proposals_slider_container"), class: "small " do  %>
+        <%= t("decidim.homepage_proposals.proposal_at_a_glance.filters.clear_filters") %>
+        <%= icon("x", class: "icon--small ") %>
+    <% end  %>
+    </div>
 
 
       <div class="filters_container" <%= 'style="display: none"' unless content_block_settings.activate_filters %>>

@@ -1,5 +1,9 @@
 @import "@glidejs/glide/src/assets/sass/glide.core";
 
+.text-underline {
+  text-decoration: underline;
+}
+
 .card__text--paragraph {
   height: 150px;
 }
