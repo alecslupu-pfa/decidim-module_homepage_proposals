@@ -73,7 +73,11 @@ export default class Manager {
                 this.generateGlides([])
             })
             .always((res) => {
-                this.glide = new GlideBuilder('.glide', 'carousel', res.length);
+                let length = res.length || 0;
+                if (length < GlideBuilder.defaultPervView()){
+                    length = GlideBuilder.defaultPervView();
+                }
+                this.glide = new GlideBuilder('.glide', 'carousel', length);
 
                 if (res.length === undefined || res.length <= 1 || res.status === 500) {
                     this.glide.disable()
@@ -117,6 +121,13 @@ export default class Manager {
             let proposalGlide = new Proposal(proposals[i])
             this.$proposalsGlideItems.append(proposalGlide.render());
             $(".glide__bullets > .glide__bullet:last").before(proposalGlide.bullet(i));
+        }
+
+        if (proposals.length < GlideBuilder.defaultPervView()) {
+            const notFoundGlide = new NotFound("")
+            for (let i = 0; i < (GlideBuilder.defaultPervView() - proposals.length); i++) {
+                this.$proposalsGlideItems.append(notFoundGlide.placeholder());
+            }
         }
     }
 }
