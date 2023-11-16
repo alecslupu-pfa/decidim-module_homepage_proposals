@@ -13,6 +13,7 @@ module Decidim
         include Decidim::FiltersHelper
         include Decidim::FilterResource
         include Decidim::ComponentPathHelper
+        include Decidim::CategoriesHelper
 
         def default_linked_component_path
           main_component_path(Decidim::Component.find(selected_component_id))
@@ -48,7 +49,7 @@ module Decidim
         end
 
         def categories_filter
-          @categories_filter ||= Decidim::Category.where(id: linked_components.map(&:categories).flatten).map { |category| [translated_attribute(category.name), category.id] }
+          @categories_filter ||= Decidim::Category.where(id: linked_components.map(&:categories).flatten)
         end
 
         def selected_component_id
