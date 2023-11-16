@@ -48,7 +48,7 @@ module Decidim
         end
 
         def categories_filter
-          @categories_filter ||= Decidim::Category.where(id: linked_components.map(&:categories).flatten)
+          @categories_filter ||= Decidim::Category.where(id: linked_components.map(&:categories).flatten).map { |category| [translated_attribute(category.name), category.id] }
         end
 
         def selected_component_id

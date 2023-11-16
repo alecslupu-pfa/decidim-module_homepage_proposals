@@ -38,8 +38,8 @@ export default class Proposal extends GlideItem {
 <div class="card card--proposal card--stack">
     <a href="${this.url}">
       <div class="proposal-glance card--header">
-      <img src="${this.image}" class="proposal-glance__img" alt="slider_img">
-</div>
+        <img src="${this.image}" class="proposal-glance__img" alt="slider_img">
+      </div>
     </a>
     <div class="card--process__small text-center padding-1">
         <span class="${this.color} card__text--status status_slider"> ${this.state.charAt(0).toUpperCase() + this.state.slice(1)} </span>
@@ -49,10 +49,10 @@ export default class Proposal extends GlideItem {
             ${this.getTagsTemplate()}
             ${this.body}
         </div>
+    </div>
+    <div class="card__button align-bottom text-center padding-top-1">
         <a href="${this.url}">
-            <div class="card__button align-bottom padding-top-1">
-                <span class="button small button--secondary">Visit</span>
-            </div>
+            <span class="button small button--secondary">Visit</span>
         </a>
     </div>
   </div>

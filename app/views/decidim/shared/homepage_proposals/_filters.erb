@@ -14,11 +14,12 @@
       </div>
       <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.about") %></p>
       <div>
-        <%= form.categories_select :category_id,
+        <%= form.collection_select :category_id,
                                    categories_filter,
-                                   disable_parents: false,
+                                   :last,
+                                   :first,
+                                   root: false,
                                    label: false,
-                                   selected: filter.category_id,
                                    include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
       </div>
       <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.in") %></p>
