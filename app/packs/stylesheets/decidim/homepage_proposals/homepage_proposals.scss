@@ -1,5 +1,9 @@
 @import "@glidejs/glide/src/assets/sass/glide.core";
 
+.text-underline {
+  text-decoration: underline;
+}
+
 .card__text--paragraph {
   height: 150px;
 }
@@ -53,4 +57,14 @@
 .flex-justify-end {
   display: flex;
   justify-content: end
+}
+
+.glide__slide {
+  .card--process__small {
+    height: 250px;
+    
+    .card__text--paragraph {
+      height: 200px;
+    }
+  }
 }
