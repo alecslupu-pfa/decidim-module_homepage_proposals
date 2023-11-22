@@ -6,8 +6,8 @@ describe "Homepage proposals slider", type: :system, js: true do
   include Decidim::TranslatableAttributes
 
   let(:organization) { create(:organization) }
-  let!(:hero) { create :content_block, organization: organization, scope_name: :homepage, manifest_name: :hero }
   let!(:slider) { create :proposals_slider, organization: organization }
+  let!(:hero) { create :content_block, organization: organization, scope_name: :homepage, manifest_name: :hero }
 
   before do
     switch_to_host(organization.host)
@@ -51,12 +51,12 @@ describe "Homepage proposals slider", type: :system, js: true do
         let!(:category3) { create(:category, participatory_space: other_component.participatory_space) }
         let!(:scope1) { create(:scope, organization: organization) }
         let!(:scope2) { create(:scope, organization: organization) }
-        let!(:proposals_11) { create_list(:proposal, 1, component: other_component, category: category1, scope: scope1, skip_injection: true) }
-        let!(:proposals_12) { create_list(:proposal, 1, component: other_component, category: category1, scope: scope2, skip_injection: true) }
-        let!(:proposals_21) { create_list(:proposal, 1, component: other_component, category: category2, scope: scope1, skip_injection: true) }
-        let!(:proposals_22) { create_list(:proposal, 1, component: other_component, category: category2, scope: scope2, skip_injection: true) }
-        let!(:proposals_31) { create_list(:proposal, 1, component: other_component, category: category3, scope: scope1, skip_injection: true) }
-        let!(:proposals_32) { create_list(:proposal, 1, component: other_component, category: category3, scope: scope2, skip_injection: true) }
+        let!(:proposal_11) { create(:proposal, component: other_component, category: category1, scope: scope1, skip_injection: true) }
+        let!(:proposal_12) { create(:proposal, component: other_component, category: category1, scope: scope2, skip_injection: true) }
+        let!(:proposal_21) { create(:proposal, component: other_component, category: category2, scope: scope1, skip_injection: true) }
+        let!(:proposal_22) { create(:proposal, component: other_component, category: category2, scope: scope2, skip_injection: true) }
+        let!(:proposal_31) { create(:proposal, component: other_component, category: category3, scope: scope1, skip_injection: true) }
+        let!(:proposal_32) { create(:proposal, component: other_component, category: category3, scope: scope2, skip_injection: true) }
 
         context "when filtering to render nothing" do
           it "displays the not found proposals with the component link" do
@@ -84,8 +84,8 @@ describe "Homepage proposals slider", type: :system, js: true do
               expect(page).to have_css(".glide__bullet_idx", count: 6)
               select translated_attribute(category1.name), from: "filter[category_id]"
               expect(page).to have_css(".glide__bullet_idx", count: 2)
-              expect(page).to have_content(translated_attribute(proposals_11.first.title))
-              expect(page).to have_content(translated_attribute(proposals_12.first.title))
+              expect(page).to have_content(translated_attribute(proposal_11.title).truncate(30))
+              expect(page).to have_content(translated_attribute(proposal_12.title).truncate(30))
             end
           end
 
@@ -93,12 +93,13 @@ describe "Homepage proposals slider", type: :system, js: true do
             it "displays only the proposals of this scope" do
               visit decidim.root_path
               select "#{translated_attribute(other_component.name)} (#{translated_attribute(other_component.participatory_space.title)})", from: "filter[component_id]"
-              select translated_attribute(scope1.name), from: "filter[scope_id]"
+              expect(page).to have_css(".glide__bullet_idx", count: 6)
 
+              select translated_attribute(scope1.name), from: "filter[scope_id]"
               expect(page).to have_css(".glide__bullet_idx", count: 3)
-              expect(page).to have_content(translated_attribute(proposals_11.first.title))
-              expect(page).to have_content(translated_attribute(proposals_21.first.title))
-              expect(page).to have_content(translated_attribute(proposals_31.first.title))
+              expect(page).to have_content(translated_attribute(proposal_11.title).truncate(30))
+              expect(page).to have_content(translated_attribute(proposal_21.title).truncate(30))
+              expect(page).to have_content(translated_attribute(proposal_31.title).truncate(30))
             end
           end
 
@@ -110,7 +111,7 @@ describe "Homepage proposals slider", type: :system, js: true do
               select translated_attribute(scope1.name), from: "filter[scope_id]"
 
               expect(page).to have_css(".glide__bullet_idx", count: 1)
-              expect(page).to have_content(translated_attribute(proposals_11.first.title))
+              expect(page).to have_content(translated_attribute(proposal_11.title).truncate(30))
             end
           end
         end
