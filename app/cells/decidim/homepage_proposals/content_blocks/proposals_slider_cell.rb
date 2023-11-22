@@ -59,16 +59,15 @@ module Decidim
           options = []
           root = linked_components.collect(&:scope).collect(&:blank?).any?
 
-          if root
-            current_organization.scopes.top_level.each do |scope|
-              options_for_scope(options, scope, 0)
-            end
-          else
-            linked_components.collect(&:scope).uniq.each do |scope|
-              options_for_scope(options, scope, 0)
-            end
-          end
+          scopes = if root
+                     current_organization.scopes.top_level
+                   else
+                     linked_components.collect(&:scope).uniq
+                   end
 
+          scopes.each do |scope|
+            options_for_scope(options, scope, 0)
+          end
           options
         end
 
