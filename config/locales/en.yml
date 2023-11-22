@@ -20,7 +20,6 @@ en:
       proposal_at_a_glance:
         filters:
           about: about
-          all_proposals: All proposals
           categories: Categories
           clear_filters: Clear filters
           components: Components
