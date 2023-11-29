@@ -7,9 +7,10 @@ module Decidim
     include Decidim::Core::Engine.routes.url_helpers
     include Decidim::ComponentPathHelper
     include Decidim::SanitizeHelper
+    include Decidim::HomepageProposals::HomepageProposalsHelper
 
     def refresh_proposals
-      render json: build_proposals_api
+      render json: { categories: categories_filter.pluck(:id), scopes: scopes_filter.collect(&:last), slides: build_proposals_api }
     end
 
     private
@@ -73,6 +74,22 @@ module Decidim
       rescue ActiveRecord::RecordNotFound
         { url: "/" }
       end
+    end
+
+    def scopes_filter
+      options = []
+      root = selected_component.collect(&:scope).collect(&:blank?).any?
+
+      scopes = if root
+                 current_organization.scopes.top_level
+               else
+                 selected_component.collect(&:scope).uniq
+               end
+
+      scopes.each do |scope|
+        options_for_scope(options, scope, 0)
+      end
+      options
     end
   end
 end

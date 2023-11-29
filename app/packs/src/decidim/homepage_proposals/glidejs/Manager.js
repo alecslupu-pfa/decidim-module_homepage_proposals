@@ -58,6 +58,24 @@ export default class Manager {
             this.glide.disable()
         }
     }
+    optionVisibility(collection, select) {
+        for (const option of select.options) {
+            if (collection.includes(parseInt(option.value)) || option.value === "") {
+                option.disabled = false;
+                option.style.display = "";
+            } else {
+                option.disabled = true;
+                option.style.display = "none";
+                if (option.selected){
+                    select.options[0].selected = true;
+                    option.selected = false;
+                    select.dispatchEvent(new Event('change'));
+                    select.form.dispatchEvent(new Event('change'));
+                    select.form.dispatchEvent(new Event('submit'));
+                }
+            }
+        }
+    }
 
     // Send request to API and create items received in Glide.js carousel
     // @return this.glide
@@ -67,7 +85,11 @@ export default class Manager {
 
         $.get(this.APIUrl())
             .done((res) => {
-                this.generateGlides(res)
+                this.generateGlides(res.slides)
+
+                this.optionVisibility(res.categories, document.getElementsByName("filter[category_id]")[0])
+                this.optionVisibility(res.scopes, document.getElementsByName("filter[scope_id]")[0])
+
             })
             .fail(() => {
                 this.generateGlides([])
