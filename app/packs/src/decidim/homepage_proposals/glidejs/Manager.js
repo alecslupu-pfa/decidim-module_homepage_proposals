@@ -85,23 +85,27 @@ export default class Manager {
 
         $.get(this.APIUrl())
             .done((res) => {
-                this.generateGlides(res.slides)
-
                 this.optionVisibility(res.categories, document.getElementsByName("filter[category_id]")[0])
                 this.optionVisibility(res.scopes, document.getElementsByName("filter[scope_id]")[0])
+
+                this.generateGlides(res.slides)
 
             })
             .fail(() => {
                 this.generateGlides([])
             })
             .always((res) => {
-                let length = res.length || 0;
+                let length = 0;
+                if (res.slides !== undefined){
+                    let length = res.slides.length || 0;
+                }
+
                 if (length < GlideBuilder.defaultPervView()){
                     length = GlideBuilder.defaultPervView();
                 }
                 this.glide = new GlideBuilder('.glide', 'carousel', length);
 
-                if (res.length === undefined || res.length <= 1 || res.status === 500) {
+                if (res.slides === undefined || res.slides.length === undefined || res.slides.length <= 1 || res.status === 500) {
                     this.glide.disable()
                 }
                 this.endLoading();
