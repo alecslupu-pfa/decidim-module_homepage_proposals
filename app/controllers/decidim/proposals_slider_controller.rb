@@ -35,7 +35,7 @@ module Decidim
     def glanced_proposals
       if params[:filter].present?
         category = Decidim::Category.find(params.dig(:filter, :category_id)) if params.dig(:filter, :category_id).present?
-        scopes = Decidim::Scope.find(params.dig(:filter, :scope_id)) if params.dig(:filter, :scope_id).present?
+        scopes = Decidim::Scope.find(params.dig(:filter, :scope_id)).descendants if params.dig(:filter, :scope_id).present?
       end
 
       @glanced_proposals ||= Decidim::Proposals::Proposal.published
