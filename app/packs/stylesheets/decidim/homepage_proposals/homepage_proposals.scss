@@ -53,7 +53,9 @@ p.columns {
 }
 
 .proposal-glance.card__title {
-  max-height: 30px;
+  height: 2.5em;
+  width: 100%;
+  overflow-y: hidden;
 }
 
 .flex-v-center {
@@ -69,7 +71,7 @@ p.columns {
 
 .glide__slide {
   .card--process__small {
-    height: 250px;
+    height: 265px;
     
     .card__text--paragraph {
       height: 200px;

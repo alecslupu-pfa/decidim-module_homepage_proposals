@@ -22,7 +22,7 @@ module Decidim
         {
           id: proposal.id,
 
-          title: translated_attribute(proposal.title).truncate(30),
+          title: translated_attribute(proposal.title),
           body: decidim_sanitize(translated_attribute(proposal.body), strip_tags: true).truncate(150),
           url: proposal_path(proposal),
           image: image_for(proposal),
