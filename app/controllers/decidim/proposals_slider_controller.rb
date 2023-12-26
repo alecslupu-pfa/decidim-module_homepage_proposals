@@ -63,7 +63,7 @@ module Decidim
     def image_for(proposal)
       return view_context.image_pack_url("media/images/slider_proposal_image.jpeg") unless proposal.attachments.select(&:image?).any?
 
-      proposal.attachments.select(&:image?).first&.url
+      proposal.attachments.select(&:image?).first&.thumbnail_url
     end
 
     def component_url
