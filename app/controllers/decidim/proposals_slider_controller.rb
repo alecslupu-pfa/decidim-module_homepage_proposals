@@ -14,6 +14,48 @@ module Decidim
 
     private
 
+    def proposal_state_css_class(proposal)
+      return if proposal.state.blank?
+      return proposal.proposal_state&.css_class unless proposal.emendation?
+      return "info" unless proposal.published_state?
+
+      case proposal.state
+      when "accepted"
+        "success"
+      when "rejected", "withdrawn"
+        "alert"
+      when "evaluating"
+        "warning"
+      else
+        "info"
+      end
+    end
+
+    def proposal_complete_state(proposal)
+      return humanize_proposal_state("not_answered").html_safe if proposal.proposal_state.nil?
+      return humanize_proposal_state("not_answered").html_safe unless proposal.published_state?
+
+      translated_attribute(proposal&.proposal_state&.title)
+    end
+
+    def humanize_proposal_state(state)
+      I18n.t(state, scope: "decidim.proposals.answers", default: :not_answered)
+    end
+
+    def state_settings(proposal)
+      state_18n = if Decidim.module_installed?(:custom_proposal_states)
+                    proposal_complete_state(proposal)
+                  else
+                    humanize_proposal_state(proposal.state)
+                   end
+
+      {
+        state: proposal.state,
+        state_css_class: proposal_state_css_class(proposal),
+        state_i18n: state_18n
+      }
+    end
+
     def build_proposals_api
       return component_url unless glanced_proposals.any?
 
@@ -25,11 +67,9 @@ module Decidim
           body: decidim_sanitize(translated_attribute(proposal.body), strip_tags: true).truncate(150),
           url: proposal_path(proposal),
           image: image_for(proposal),
-          state: proposal.state,
-          state_i18n: I18n.t(proposal.state, scope: "decidim.proposals.answers", default: :not_answered),
           category: proposal.category ? cell("decidim/tags", proposal).render(:category).strip.html_safe : "",
           scope: proposal.scope ? cell("decidim/tags", proposal).render(:scope).strip.html_safe : ""
-        }
+        }.merge(state_settings(proposal))
       end
     end
 

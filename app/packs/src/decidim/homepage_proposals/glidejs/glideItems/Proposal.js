@@ -9,22 +9,9 @@ export default class Proposal extends GlideItem {
         this.url = obj.url;
         this.state = obj.state || 'not answered' ;
         this.stateI18n = obj.state_i18n;
-        this.color = this.colorFromState(this.state);
+        this.color = obj.state_css_class;
         this.scope = obj.scope;
         this.category = obj.category;
-    }
-
-    colorFromState(state) {
-        switch(state){
-            case 'accepted':
-                return 'success';
-            case 'rejected':
-                return 'alert';
-            case 'evaluating':
-                return 'warning';
-            default:
-                return 'muted';
-        }
     }
 
     getTagsTemplate() {
