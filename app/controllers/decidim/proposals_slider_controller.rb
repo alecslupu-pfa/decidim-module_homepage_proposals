@@ -26,6 +26,7 @@ module Decidim
           url: proposal_path(proposal),
           image: image_for(proposal),
           state: proposal.state,
+          state_i18n: I18n.t(proposal.state, scope: "decidim.proposals.answers", default: :not_answered),
           category: proposal.category ? cell("decidim/tags", proposal).render(:category).strip.html_safe : "",
           scope: proposal.scope ? cell("decidim/tags", proposal).render(:scope).strip.html_safe : ""
         }

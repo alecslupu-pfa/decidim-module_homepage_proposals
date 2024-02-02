@@ -8,6 +8,7 @@ export default class Proposal extends GlideItem {
         this.image = obj.image;
         this.url = obj.url;
         this.state = obj.state || 'not answered' ;
+        this.stateI18n = obj.state_i18n;
         this.color = this.colorFromState(this.state);
         this.scope = obj.scope;
         this.category = obj.category;
@@ -42,7 +43,7 @@ export default class Proposal extends GlideItem {
       </div>
     </a>
     <div class="card--process__small text-center padding-1">
-        <span class="${this.color} card__text--status status_slider"> ${this.state.charAt(0).toUpperCase() + this.state.slice(1)} </span>
+        <span class="${this.color} card__text--status status_slider"> ${this.stateI18n} </span>
         <a href="${this.url}"><h3 class="proposal-glance card__title">${this.title}</h3></a>
         
         <div class="card__text--paragraph padding-top-1">
