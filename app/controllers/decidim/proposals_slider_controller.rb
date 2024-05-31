@@ -16,6 +16,7 @@ module Decidim
 
     def proposal_state_css_class(proposal)
       return if proposal.state.blank?
+
       if proposal.respond_to?(:proposal_state)
         return proposal.proposal_state&.css_class unless proposal.emendation?
         return "info" unless proposal.published_state?
@@ -49,7 +50,7 @@ module Decidim
                     proposal_complete_state(proposal)
                   else
                     humanize_proposal_state(proposal.state)
-                   end
+                  end
 
       {
         state: proposal.state,
