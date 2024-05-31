@@ -1,6 +1,5 @@
 ---
 en:
-
   decidim:
     homepage_proposals:
       content_blocks:
@@ -20,8 +19,8 @@ en:
           linked_components_id: Components available in filters
       proposal_at_a_glance:
         filters:
-          all_proposals: All Proposals
           about: about
+          all_proposals: All Proposals
           categories: Categories
           clear_filters: Clear filters
           components: Components
