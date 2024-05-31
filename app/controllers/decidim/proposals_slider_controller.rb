@@ -16,8 +16,10 @@ module Decidim
 
     def proposal_state_css_class(proposal)
       return if proposal.state.blank?
-      return proposal.proposal_state&.css_class unless proposal.emendation?
-      return "info" unless proposal.published_state?
+      if proposal.respond_to?(:proposal_state)
+        return proposal.proposal_state&.css_class unless proposal.emendation?
+        return "info" unless proposal.published_state?
+      end
 
       case proposal.state
       when "accepted"

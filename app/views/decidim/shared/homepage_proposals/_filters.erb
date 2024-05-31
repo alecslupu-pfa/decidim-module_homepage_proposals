@@ -1,43 +1,46 @@
 <%= filter_form_for filter, decidim_participatory_processes_path, id: 'filters-form' do |form| %>
-  <div class="row collapse">
-    <div class="columns mediumlarge-4">
-      <div class="row collapse">
-        <p class="columns mediumlarge-6"><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.intro") %></p>
-        <div class="columns mediumlarge-6">
-          <%= form.collection_select :scope_id,
-                                     scopes_filter,
-                                     :last,
-                                     :first,
-                                     root: false,
-                                     label: false,
-                                     include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_scope") %>
-        </div>
+  <div class="row">
+    <div class="columns flex-v-center">
+      <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.intro") %></p>
+      <div class="medium-2 mediumlarge-3">
+        <%= cell(
+              "decidim/scopes_picker",
+              form,
+              attribute: :scope_id,
+              multiple: true,
+              label: false,
+              checkboxes_on_top: false
+            ) %>
+      </div>
+      <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.about") %></p>
+      <div class="medium-2">
+        <%= form.categories_select :category_id,
+                                   categories_filter,
+                                   disable_parents: false,
+                                   label: false,
+                                   selected: filter.category_id,
+                                   include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
+      </div>
+      <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.in") %></p>
+      <div class="medium-2 large-3">
+        <%= form.select :component_id,
+                        options_for_default_component,
+                        label: false,
+                        selected: filter.component_id,
+                        data: { placeholder: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") }
+        %>
       </div>
     </div>
-    <div class="columns mediumlarge-4">
-      <div class="row collapse medium-uncollapse">
-        <p class="columns mediumlarge-2 medium-text-center"><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.about") %></p>
-        <div class="columns mediumlarge-10">
-          <%= form.collection_select :category_id,
-                                     categories_for_select(categories_filter),
-                                     :last,
-                                     :first,
-                                     root: false,
-                                     label: false,
-                                     include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
-        </div>
+  </div>
+  <div class="row">
+    <div class="columns medium-3">
+      <div class="clear-filters">
+        <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.clear_filters"), decidim_participatory_processes_path(anchor: "proposals_slider"), class: "button button--secondary small button--sc" %>
       </div>
     </div>
-    <div class="columns mediumlarge-4">
-      <div class="row collapse">
-        <p class="columns mediumlarge-1 medium-text-center"><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.in") %></p>
-        <div class="columns mediumlarge-11">
-          <%= form.select :component_id,
-                          options_for_default_component,
-                          label: false,
-                          selected: filter.component_id,
-                          data: { placeholder: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") } %>
-        </div>
+    <div class="columns medium-3">
+      <div class="all-proposals flex-justify-end">
+        <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.all_proposals"), default_linked_component_path, class: "button button--secondary small button--sc" %>
       </div>
     </div>
   </div>

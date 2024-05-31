@@ -7,7 +7,7 @@ module Decidim
     end
 
     def self.decidim_version
-      "0.26"
+      "0.26.10"
     end
   end
 end
