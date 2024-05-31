@@ -79,7 +79,7 @@ module Decidim
     def glanced_proposals
       if params[:filter].present?
         category = Decidim::Category.find(params.dig(:filter, :category_id)) if params.dig(:filter, :category_id).present?
-        scopes = Decidim::Scope.find(params.dig(:filter, :scope_id)).descendants if params.dig(:filter, :scope_id).present?
+        scopes = Decidim::Scope.find(params_scopes_ids).descendants if params_scopes_ids.present?
       end
 
       @glanced_proposals ||= Decidim::Proposals::Proposal.published
@@ -117,6 +117,13 @@ module Decidim
       rescue ActiveRecord::RecordNotFound
         { url: "/" }
       end
+    end
+
+    def params_scopes_ids
+      return if params.dig(:filter, :scope_id).blank?
+      return params.dig(:filter, :scope_id).first if params.dig(:filter, :scope_id).is_a?(Array)
+
+      params.dig(:filter, :scope_id)
     end
   end
 end

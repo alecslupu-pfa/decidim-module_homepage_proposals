@@ -95,7 +95,11 @@ describe "Homepage proposals slider", type: :system, js: true do
               select "#{translated_attribute(other_component.name)} (#{translated_attribute(other_component.participatory_space.title)})", from: "filter[component_id]"
               expect(page).to have_css(".glide__bullet_idx", count: 6)
 
-              select translated_attribute(scope1.name), from: "filter[scope_id]"
+              click_link "Select a scope"
+              click_link translated_attribute(scope1.name)
+              within ".reveal__footer" do
+                click_link "Select"
+              end
               expect(page).to have_css(".glide__bullet_idx", count: 3)
               expect(page).to have_content(translated_attribute(proposal_11.title).truncate(30))
               expect(page).to have_content(translated_attribute(proposal_21.title).truncate(30))
@@ -108,7 +112,11 @@ describe "Homepage proposals slider", type: :system, js: true do
               visit decidim.root_path
               select "#{translated_attribute(other_component.name)} (#{translated_attribute(other_component.participatory_space.title)})", from: "filter[component_id]"
               select translated_attribute(category1.name), from: "filter[category_id]"
-              select translated_attribute(scope1.name), from: "filter[scope_id]"
+              click_link "Select a scope"
+              click_link translated_attribute(scope1.name)
+              within ".reveal__footer" do
+                click_link "Select"
+              end
 
               expect(page).to have_css(".glide__bullet_idx", count: 1)
               expect(page).to have_content(translated_attribute(proposal_11.title).truncate(30))
